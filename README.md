@@ -1,8 +1,9 @@
+![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
 `v.1.0.0`
 
-**You can see the list of innovations and updates [here](deviunter/TASK-SYSTEM/Update.md)**
+**You can see the list of innovations and updates in UPDATE.md**
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
