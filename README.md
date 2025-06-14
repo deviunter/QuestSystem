@@ -3,8 +3,6 @@
 
 `v.1.0.0`
 
-**You can see the list of innovations and updates in UPDATE.md**
-
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
 Developed in Unreal Engine 5. "Unreal Engine" and its logo are trademarks or registered trademarks of Epic Games, Inc.
