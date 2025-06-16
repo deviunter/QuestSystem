@@ -12,7 +12,42 @@ This project and its contents are the intellectual property of Skydream Interact
 
 # WHAT'S NEW
 
-Initial release, all necessary classes are added and the principle of the system operation and a tutorial on how to interact with it are described
+Improved UQuestBase: if the goal was multiple, it was impossible to complete it, because the goal could increase the CurrentAmmound value. Now, the logic of ObjectiveComplete has been refined and improved. Now it is possible to complete the goal, after increasing the CurrentAmmound value.
+``` c++
+if (GetObjectiveData(ObjectiveID).CurrentAmmound >= GetObjectiveData(ObjectiveID).MaxAmmound)
+			{
+				MakeCompletedObjective(LocalObjective, EObjectiveCompleteType::Completed);
+				if (bIsQuestTracked == true)
+				{
+					AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
+					if (CurrentGameMode)
+					{
+						IQuestInterface::Execute_RemoveLine((UObject*)CurrentGameMode, ObjectiveID, EObjectiveCompleteType::Completed);
+					}
+				}
+				else
+				{
+					AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
+					if (CurrentGameMode)
+					{
+						IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
+					}
+				}
+				int32 LocalIndex;
+				LocalIndex = GetObjectiveIndex(ObjectiveID);
+				CurrentObjectives.RemoveAt(LocalIndex);
+				CheckConflictObjectives(ObjectiveID);
+				if (CurrentObjectives.Num() < 1)
+				{
+					//StageReward();
+					/*if (FOnStageCompleted.IsBound())
+					{
+						FOnStageCompleted.Broadcast(CurrentStage);
+					}*/
+					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
+				}
+			}
+```
 
 # TUTORIAL
 
