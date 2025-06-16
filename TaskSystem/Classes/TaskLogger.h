@@ -23,13 +23,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Default")
+	UFUNCTION(BlueprintCallable, Exec, Category = "Default")
 	void CompleteQuest(FName QuestID, UQuestBase* QuestBaseReference);
 
-	UFUNCTION(BlueprintCallable, Category = "Default")
+	UFUNCTION(BlueprintCallable, Exec, Category = "Default")
 	void AddNewQuest(FName QuestID);
 
-	UFUNCTION(BlueprintCallable, Category = "Default")
+	UFUNCTION(BlueprintCallable, Exec, Category = "Default")
 	void TrackQuest(FName QuestID);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Default")

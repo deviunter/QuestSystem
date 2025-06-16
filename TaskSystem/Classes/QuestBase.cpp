@@ -309,6 +309,39 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 					IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
 				}
 			}
+			if (GetObjectiveData(ObjectiveID).CurrentAmmound >= GetObjectiveData(ObjectiveID).MaxAmmound)
+			{
+				MakeCompletedObjective(LocalObjective, EObjectiveCompleteType::Completed);
+				if (bIsQuestTracked == true)
+				{
+					AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
+					if (CurrentGameMode)
+					{
+						IQuestInterface::Execute_RemoveLine((UObject*)CurrentGameMode, ObjectiveID, EObjectiveCompleteType::Completed);
+					}
+				}
+				else
+				{
+					AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
+					if (CurrentGameMode)
+					{
+						IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
+					}
+				}
+				int32 LocalIndex;
+				LocalIndex = GetObjectiveIndex(ObjectiveID);
+				CurrentObjectives.RemoveAt(LocalIndex);
+				CheckConflictObjectives(ObjectiveID);
+				if (CurrentObjectives.Num() < 1)
+				{
+					//StageReward();
+					/*if (FOnStageCompleted.IsBound())
+					{
+						FOnStageCompleted.Broadcast(CurrentStage);
+					}*/
+					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
+				}
+			}
 			
 		}
 

@@ -52,15 +52,15 @@ public:
 	/*    QUEST FUNCTIONS     */
 
 	/*Activates the quest and spawns a quest marker on the current targets, unless these targets are hidden until completed (bIsObjectiveHidden == true)*/
-	UFUNCTION(BlueprintCallable, Exec, Category = "Quest")
+	UFUNCTION(BlueprintCallable, Category = "Quest")
 	void ActivateQuest();
 
 	/*Deactivate quest and destroys a quest marker on the current targets*/
-	UFUNCTION(BlueprintCallable, Exec, Category = "Quest")
+	UFUNCTION(BlueprintCallable, Category = "Quest")
 	void DeactivateQuest();
 
 	/*Sets bIsQuestComplete flag & call CompleteQuest Function in TaskLogger*/
-	UFUNCTION(BlueprintCallable, Exec, Category = "Quest")
+	UFUNCTION(BlueprintCallable, Category = "Quest")
 	void CompleteQuest();
 	
 	/*Updates the current mission objectives depending on the stage*/
