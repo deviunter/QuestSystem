@@ -32,9 +32,6 @@ public:
 	UFUNCTION(BlueprintCallable, Exec, Category = "Default")
 	void TrackQuest(FName QuestID);
 
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Default")
-	void GiveReward();
-
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Default")
 	bool GetActiveQuest(FName QuestID);
 
@@ -57,5 +54,8 @@ public:
 	TArray<UQuestBase*> CurrentQuests;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Default")
-	FName ActiveQuest;	
+	FName ActiveQuest;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Default")
+	FTimerHandle UpdateDelay;
 };

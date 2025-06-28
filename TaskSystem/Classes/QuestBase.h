@@ -73,6 +73,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Stage")
 	void UpdateStage();
 
+	UFUNCTION(BlueprintCallable, Category = "Stage")
+	void StageReward();  
+
 	/*    SAVE GAME FUNCTIONS    */
 
 	/*Return Save Data for SaveGameToSlot*/
@@ -124,19 +127,13 @@ if the goal is completed, then the conflicting goals will be automatically ignor
 
 	/*Create CompleteObjective Array Elem*/
 	UFUNCTION(BlueprintCallable, Category = "Objective")
-	void MakeCompletedObjective(FCurrentObjectives Objective, EObjectiveCompleteType CompleteType);
-
-	/*    BLUEPRINT FUNCTIONS    
-	UFUNCTION(BlueprintNativeEvent, Category = "BP Implements", meta = (DisplayName = "Remove Objective From Screen"))
-	void RemoveObjectiveFromViewport(const FString ObjectiveID, EObjectiveCompleteType CompleteType);
-
-	UFUNCTION(BlueprintNativeEvent, Category = "BP Implements", meta = (DisplayName = "Refresh Screen Objectives"))
-	void RefreshViewportObjectives(const TArray<FCurrentObjectives> Objectives);
-	*/
-	//UFUNCTION(BlueprintNativeEvent, Category = "BP Implements", meta = (DisplayName = "Stage Reward"))
-	//void StageReward();     
+	void MakeCompletedObjective(FCurrentObjectives Objective, EObjectiveCompleteType CompleteType);   
 
 	/*     DISPATCHERS     */
+
+	// on stage completed
+
+	// delegate for SPECIAL ACTORS & SYSTEMS
 
 	/*    VARIABLES    */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest")

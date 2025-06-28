@@ -5,6 +5,8 @@
 #include "QuestBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Core/Interfaces/InstancesInterface.h"
+#include "Player/PlayerInterface.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"
 // #include "pch.h"
 
@@ -30,6 +32,15 @@ void UTaskLogger::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 
 void UTaskLogger::CompleteQuest(FName QuestID, UQuestBase* QuestBaseReference)
 {
+	ReceivedQuests.Remove(QuestID);
+	CompletedQuests.Add(QuestID);
+	UGameInstance* LocalIns = UGameplayStatics::GetGameInstance(GetWorld());
+	if (LocalIns)
+	{
+		IInstancesInterface::Execute_NewTaskNotification(LocalIns, QuestID, ETaskGiverType::Completed);
+	}
+	IPlayerInterface::Execute_AddMoney((UObject*)GetOwner(), QuestBaseReference->QuestDetails.MoneyReward);
+	IPlayerInterface::Execute_AddAbilityPoints((UObject*)GetOwner(), QuestBaseReference->QuestDetails.AbilityPointsAmmound);
 	if (!QuestBaseReference->QuestDetails.NextTask.IsNone())
 	{
 		AddNewQuest(QuestBaseReference->QuestDetails.NextTask);
@@ -43,9 +54,6 @@ void UTaskLogger::CompleteQuest(FName QuestID, UQuestBase* QuestBaseReference)
 			IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, nullptr);
 		}
 	}
-	ReceivedQuests.Remove(QuestID);
-	CompletedQuests.Add(QuestID);
-	GiveReward();
 }
 
 //Add New Quest Name and Spawn QuestBase & add this to "CurrentQuests"
@@ -61,6 +69,10 @@ void UTaskLogger::AddNewQuest(FName QuestID)
 			NewQuest->TaskLogger = this;
 			CurrentQuests.Add(NewQuest);
 			NewQuest->Initialization();
+			UGameInstance* LocalINS = UGameplayStatics::GetGameInstance(GetWorld());
+			{
+				IInstancesInterface::Execute_NewTaskNotification(LocalINS, QuestID, ETaskGiverType::NewTask);
+			}
 		}
 	}
 }

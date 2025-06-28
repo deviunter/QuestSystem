@@ -4,7 +4,8 @@
 #include "Modules/ModuleManager.h" 
 #include "TaskLogger.h"
 #include "Kismet/GameplayStatics.h"
-#include "Engine/DataTable.h"
+#include "Engine/DataTable.h
+#include "Player/PlayerInterface.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"
 
 /*Initial function. It sets default values ??for variables, clears arrays and loads the quest table to install the data manager*/
@@ -236,6 +237,15 @@ void UQuestBase::UpdateStage()
 	}
 }
 
+void UQuestBase::StageReward()
+{
+	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (Player)
+	{
+		IPlayerInterface::Execute_AddGameplayTags((UObject*)Player, StageDetails.GameplayTagsReward);
+	}
+}
+
 /*The process of completing a goal. If it is in the current list, it is either executed or its Ammound is incremented.
 If it is not in the current list, it is removed from AllObjectives, then if there are few goals left,
 they are checked for possible ignorability or optionality. If possible, they are ignored and the stage is updated*/
@@ -270,11 +280,8 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 			CheckConflictObjectives(ObjectiveID);
 			if (CurrentObjectives.Num() < 1)
 			{
-				//StageReward();
-				/*if (FOnStageCompleted.IsBound())
-				{
-					FOnStageCompleted.Broadcast(CurrentStage);
-				}*/
+				StageReward();
+				// on stage completed
 				GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 			}
 			else
@@ -334,11 +341,8 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 				CheckConflictObjectives(ObjectiveID);
 				if (CurrentObjectives.Num() < 1)
 				{
-					//StageReward();
-					/*if (FOnStageCompleted.IsBound())
-					{
-						FOnStageCompleted.Broadcast(CurrentStage);
-					}*/
+					StageReward();
+					// on stage completed
 					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
 			}
@@ -406,11 +410,8 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 			{
 				if (CurrentObjectives.Num() < 1)
 				{
-					//StageReward();
-					/*if (FOnStageCompleted.IsBound())
-					{
-						FOnStageCompleted.Broadcast(CurrentStage);
-					}*/
+					StageReward();
+					// on stage completed
 					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
 				else
@@ -428,7 +429,11 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 		}
 		else
 		{
-			//GameOver
+			ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+			if (Player)
+			{
+				IPlayerInterface::Execute_TaskFailed((UObject*)Player, QuestID);
+			}
 		}
 	}
 	else
@@ -490,11 +495,8 @@ void UQuestBase::ObjectiveIgnored(FString ObjectiveID, bool ForceUpdateStage)
 			{
 				if (CurrentObjectives.Num() < 1)
 				{
-					//StageReward();
-					/*if (FOnStageCompleted.IsBound())
-					{
-						FOnStageCompleted.Broadcast(CurrentStage);
-					}*/
+					StageReward();
+					// on stage completed
 					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
 				else

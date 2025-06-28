@@ -40,3 +40,11 @@ enum class EObjectiveCompleteType : uint8
 	Ignored UMETA(DisplayName = "Objective Ignored"),
 	Failed UMETA(DisplayName = "Objective Failed")
 };
+
+UENUM(BlueprintType)
+enum class ETaskGiverType : uint8
+{
+	NewTask UMETA(DisplayName = "New Task"),
+	Failed UMETA(DisplayName = "Task Failed"),
+	Completed UMETA(DisplayName = "Task Completed")
+};
