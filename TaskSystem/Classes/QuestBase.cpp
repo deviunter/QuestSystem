@@ -4,7 +4,7 @@
 #include "Modules/ModuleManager.h" 
 #include "TaskLogger.h"
 #include "Kismet/GameplayStatics.h"
-#include "Engine/DataTable.h
+#include "Engine/DataTable.h"
 #include "Player/PlayerInterface.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"
 
