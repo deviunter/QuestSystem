@@ -11,12 +11,19 @@ Developed in Unreal Engine 5. "Unreal Engine" and its logo are trademarks or reg
 This project and its contents are the intellectual property of Skydream Interactive & Deviunter. Unauthorized copying, reproduction, or distribution is strictly prohibited.
 
 # WHAT'S NEW
+
 `v. 1.0.2 HF`
 A small hotfix, the quotation mark in the #include list was omitted
+
+
 `v. 1.0.2`
 Added interface implementation to display the receipt of new quests.
+
+
 `v. 1.0.1`
-Minor fixes and improvements
+Minor fixes and improvements.
+
+
 `v. 1.0.0`
 Improved UQuestBase: if the goal was multiple, it was impossible to complete it, because the goal could increase the CurrentAmmound value. Now, the logic of ObjectiveComplete has been refined and improved. Now it is possible to complete the goal, after increasing the CurrentAmmound value.
 ``` c++
