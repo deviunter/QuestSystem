@@ -1,7 +1,7 @@
 ![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
-`v.1.0.0`
+`v.1.0.2 HF`
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
@@ -11,7 +11,13 @@ Developed in Unreal Engine 5. "Unreal Engine" and its logo are trademarks or reg
 This project and its contents are the intellectual property of Skydream Interactive & Deviunter. Unauthorized copying, reproduction, or distribution is strictly prohibited.
 
 # WHAT'S NEW
-
+`v. 1.0.2 HF`
+A small hotfix, the quotation mark in the #include list was omitted
+`v. 1.0.2`
+Added interface implementation to display the receipt of new quests.
+`v. 1.0.1`
+Minor fixes and improvements
+`v. 1.0.0`
 Improved UQuestBase: if the goal was multiple, it was impossible to complete it, because the goal could increase the CurrentAmmound value. Now, the logic of ObjectiveComplete has been refined and improved. Now it is possible to complete the goal, after increasing the CurrentAmmound value.
 ``` c++
 if (GetObjectiveData(ObjectiveID).CurrentAmmound >= GetObjectiveData(ObjectiveID).MaxAmmound)
