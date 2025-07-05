@@ -67,20 +67,14 @@ bool UQuestBase::FindObjectiveByID(FString ObjectiveID)
 /*Searches for the selected target in the list of current targets and if found returns the index of the selected target, otherwise returns "-1"*/
 int32 UQuestBase::GetObjectiveIndex(FString ObjectiveID)
 {
-	int32 LocalIndex;
-	LocalIndex = 0;
-	for (FCurrentObjectives CurrentElem : CurrentObjectives)
+	for (int32 i = 0; i < CurrentObjectives.Num(); i++)
 	{
-		if (CurrentElem.ObjectiveID == ObjectiveID)
+		if (CurrentObjectives[i].ObjectiveID == ObjectiveID)
 		{
-			return LocalIndex;
-		}
-		else
-		{
-			LocalIndex++;
+			return i;
 		}
 	}
-	return -1;
+	return INDEX_NONE;
 }
 
 /*Searches for a target in the full list of targets, returns "true" if found*/
@@ -298,8 +292,12 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 		}
 		else
 		{
-			LocalObjective.CurrentAmmound = AddedValue + LocalObjective.CurrentAmmound;
-			CurrentObjectives.EmplaceAt(GetObjectiveIndex(ObjectiveID), LocalObjective);
+			int32 RefreshIndex = GetObjectiveIndex(ObjectiveID);
+			if (RefreshIndex != INDEX_NONE && CurrentObjectives.IsValidIndex(RefreshIndex))
+			{
+				FCurrentObjectives& ObjectiveReference = CurrentObjectives[RefreshIndex];
+				ObjectiveReference.CurrentAmmound += AddedValue;
+			}
 			if (bIsQuestTracked == true)
 			{
 				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
@@ -335,20 +333,19 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 						IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
 					}
 				}
-				int32 LocalIndex;
-				LocalIndex = GetObjectiveIndex(ObjectiveID);
-				CurrentObjectives.RemoveAt(LocalIndex);
+				int32 LocalInt;
+				LocalInt = GetObjectiveIndex(ObjectiveID);
+				CurrentObjectives.RemoveAt(LocalInt);
 				CheckConflictObjectives(ObjectiveID);
 				if (CurrentObjectives.Num() < 1)
 				{
 					StageReward();
 					// on stage completed
-					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
+					UpdateStage();
+					//GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
 			}
-			
 		}
-
 	}
 	else
 	{
@@ -366,9 +363,7 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 				}
 			}
 		}
-
 	}
-
 }
 
 /*The process of failing a goal. If it is in the current list, it is either executed.
