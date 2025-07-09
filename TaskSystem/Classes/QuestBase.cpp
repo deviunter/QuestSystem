@@ -680,6 +680,11 @@ void UQuestBase::MakeCompletedObjective(FCurrentObjectives Objective, EObjective
 	CompletedObjectives.Add(LocalCompletedObjective);
 }
 
+bool UQuestBase::GenerateObjective(FString ObjectiveID, FObjectiveDetails ObjectiveDetails)
+{
+	return false;
+}
+
 /*Return Save Data for SaveGameToSlot*/
 FQuestBaseSave UQuestBase::GetSaveData()
 {

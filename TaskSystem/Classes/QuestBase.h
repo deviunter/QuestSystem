@@ -127,13 +127,19 @@ if the goal is completed, then the conflicting goals will be automatically ignor
 
 	/*Create CompleteObjective Array Elem*/
 	UFUNCTION(BlueprintCallable, Category = "Objective")
-	void MakeCompletedObjective(FCurrentObjectives Objective, EObjectiveCompleteType CompleteType);   
+	void MakeCompletedObjective(FCurrentObjectives Objective, EObjectiveCompleteType CompleteType);
+
+	UFUNCTION(BlueprintCallable, Category = "Objective")
+	bool GenerateObjective(FString ObjectiveID, FObjectiveDetails ObjectiveDetails);
 
 	/*     DISPATCHERS     */
 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStageCompleted, int32, StageIndex);
 	UPROPERTY(BlueprintAssignable)
 	FOnStageCompleted OnStageCompleted;
+
+	// ъ унрек янгдюрэ йюйхе рн декецюрш дкъ пюгмшу яхрсюжхи бнр рнкэйн гюашк йюйхе
+	// мюдн бяонлмхрэ х еякх ме асдер онд псйни йндю х гюохяюрэ врн гю декецюрш ъ унрек янгдюрэ
 
 	// delegate for SPECIAL ACTORS & SYSTEMS
 
