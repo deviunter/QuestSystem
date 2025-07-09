@@ -160,6 +160,7 @@ void UTaskLogger::LoadQuestSystem(FTaskSystemSave LoadedData)
 		UQuestBase* NewQuest = NewObject<UQuestBase>(this, UQuestBase::StaticClass());
 		if (NewQuest)
 		{
+			CurrentQuests.Add(NewQuest);
 			NewQuest->TaskLogger = this;
 			NewQuest->SetLoadData(Elem);
 		}

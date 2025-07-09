@@ -231,6 +231,7 @@ void UQuestBase::UpdateStage()
 	}
 }
 
+/*ahahha*/
 void UQuestBase::StageReward()
 {
 	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
@@ -399,6 +400,8 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 			CurrentObjectives.RemoveAt(LocalIndex);
 			if (!LocalObjective.ObjectiveDetails.ObjectiveReplaceID.IsEmpty())
 			{
+				// мюдн онярюбхрэ щрн мю рюилеп, онрнлс врн хцпнй ме бхдхр врн ярюкн я ецн жекэч х ме сяоебюер
+				// онмърэ врн опнхгнькн
 				ReplaceObjective(LocalObjective.ObjectiveDetails.ObjectiveReplaceID);
 			}
 			if (ForceUpdateStage == true)
@@ -449,6 +452,7 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 		}
 
 	}
+
 }
 
 /*The process of ignoring a goal. If it is in the current list, it is either executed.
@@ -484,6 +488,8 @@ void UQuestBase::ObjectiveIgnored(FString ObjectiveID, bool ForceUpdateStage)
 			CurrentObjectives.RemoveAt(LocalIndex);
 			if (!LocalObjective.ObjectiveDetails.ObjectiveReplaceID.IsEmpty())
 			{
+				// мюдн онярюбхрэ щрн мю рюилеп, онрнлс врн хцпнй ме бхдхр врн ярюкн я ецн жекэч х ме сяоебюер
+				// онмърэ врн опнхгнькн
 				ReplaceObjective(LocalObjective.ObjectiveDetails.ObjectiveReplaceID);
 			}
 			if (ForceUpdateStage == true)
@@ -545,12 +551,11 @@ void UQuestBase::IsOptionalRemainder()
 /*Overwrites the maximum number of the target if it is in the CurrentObjectives list*/
 void UQuestBase::WriteMaxAmmound(FString ObjectiveID, int32 NewMaxAmmound)
 {
-	FCurrentObjectives LocalObjective;
-	if (FindObjectiveByID(ObjectiveID))
+	int32 RefreshIndex = GetObjectiveIndex(ObjectiveID);
+	if (RefreshIndex != INDEX_NONE && CurrentObjectives.IsValidIndex(RefreshIndex))
 	{
-		LocalObjective = GetObjectiveData(ObjectiveID);
-		LocalObjective.MaxAmmound = NewMaxAmmound;
-		CurrentObjectives.EmplaceAt(GetObjectiveIndex(ObjectiveID), LocalObjective);
+		FCurrentObjectives& ObjectiveReference = CurrentObjectives[RefreshIndex];
+		ObjectiveReference.MaxAmmound = NewMaxAmmound;
 	}
 }
 
@@ -558,6 +563,14 @@ void UQuestBase::WriteMaxAmmound(FString ObjectiveID, int32 NewMaxAmmound)
 if it has them in the ReplaceObjectives array in the FObjectiveDetails structure*/
 void UQuestBase::ReplaceObjective(TArray<FName> ReplaceID)
 {
+	// МЮДН ДНАЮБХРЭ БНГЛНФМНЯРЭ ДНАЮБКЪРЭ ГЮЛЕМС МЮ ЯКЕДСЧЫСЧ ЯРЮДХЧ
+	// РНЕЯРЭ ЯМЮВЮКЮ ЛШ ОПНБЕПЪЕЛ AddToNextStage == true ЕЯКХ ДЮ, РН ДЕКЮЕЛ ЮОПЕИР ЯРЕИДФ
+	// опнакелю: яхярелю лнфер бшонкмхрэ йбеяр оняке опнбюкеммни жекх, еякх нмю б онякедмеи ярюдхх
+	// мсфмн ядекюрэ гюыхрс нр щрнцн асдер
+	// Х ОНЯКЕ ЮОДЕИР ЯРЕИДФ ЛШ СФЕ ДНАЮБКЪЕЛ МНБШЕ ЖЕКХ МЮ МНБСЧ ЯРЮДХЧ
+	// Ю ЕЯКХ AddToNextStage == false РНЦДЮ ОНУСИ
+	// мн: мюдн ядекюрэ опнбепйс мю жекх, мекэгъ фе намнбкърэ ярюдхч еякх ме бяе жекх мю щрни гюбепьемш
+	// рнкэйн еякх жекэ, йнрнпсч гюлемхкх нярюкюяэ ндмю мю ярюдхх хкх ашкю ндмю хгмювюкэмн
 	for (FName Elem : ReplaceID)
 	{
 		if (!Elem.IsNone())
@@ -671,15 +684,18 @@ void UQuestBase::MakeCompletedObjective(FCurrentObjectives Objective, EObjective
 FQuestBaseSave UQuestBase::GetSaveData()
 {
 	FQuestBaseSave LocalData;
-	LocalData.AllObjectives = AllObjectives;
-	LocalData.CurrentStage = CurrentStage;
-	LocalData.bIsQuestCompleted = bIsQuestCompleted;
-	LocalData.bIsQuestTracked = bIsQuestTracked;
-	LocalData.CompletedObjectives = CompletedObjectives;
-	LocalData.CurrentObjectives = CurrentObjectives;
-	LocalData.StageDetails = StageDetails;
 	LocalData.QuestID = QuestID;
 	LocalData.QuestDetails = QuestDetails;
+	LocalData.CurrentStage = CurrentStage;
+	LocalData.CurrentObjectives.Empty();
+	LocalData.CurrentObjectives = CurrentObjectives;
+	LocalData.AllObjectives.Empty();
+	LocalData.AllObjectives = AllObjectives;
+	LocalData.StageDetails = StageDetails;
+	LocalData.CompletedObjectives.Empty();
+	LocalData.CompletedObjectives = CompletedObjectives;
+	LocalData.bIsQuestTracked = bIsQuestTracked;
+	LocalData.bIsQuestCompleted = bIsQuestCompleted;
 	return LocalData;
 }
 
@@ -695,5 +711,32 @@ void UQuestBase::SetLoadData(FQuestBaseSave LoadedData)
 	bIsQuestTracked = LoadedData.bIsQuestTracked;
 	StageDetails = LoadedData.StageDetails;
 	CompletedObjectives = LoadedData.CompletedObjectives;
-	//refreshquest Х РД.
+	if (!bIsQuestCompleted)
+	{
+		if (bIsQuestTracked == true)
+		{
+			TArray<AActor*> LocalActors;
+			UGameplayStatics::GetAllActorsWithInterface(GetWorld(), UQuestInterface::StaticClass(), LocalActors);
+			for (AActor* Elem : LocalActors)
+			{
+				if (FindObjectiveByID(IQuestInterface::Execute_GetMyObjectiveID(Elem)))
+				{
+					FString LocalStr;
+					LocalStr = IQuestInterface::Execute_GetMyObjectiveID(Elem);
+					FObjectiveDetails LocalObjective;
+					LocalObjective = GetObjectiveData(LocalStr).ObjectiveDetails;
+					IQuestInterface::Execute_ActivateObjective(Elem, LocalObjective, this);
+					if (!LocalObjective.bIsObjectiveHidden && bIsQuestTracked == true)
+					{
+						IQuestInterface::Execute_SpawnTargetMark(Elem, QuestDetails.QuestType);
+					}
+				}
+			}
+			AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
+			if (CurrentGameMode)
+			{
+				IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, this);
+			}
+		}
+	}
 }

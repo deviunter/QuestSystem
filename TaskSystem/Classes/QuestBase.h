@@ -131,7 +131,9 @@ if the goal is completed, then the conflicting goals will be automatically ignor
 
 	/*     DISPATCHERS     */
 
-	// on stage completed
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStageCompleted, int32, StageIndex);
+	UPROPERTY(BlueprintAssignable)
+	FOnStageCompleted OnStageCompleted;
 
 	// delegate for SPECIAL ACTORS & SYSTEMS
 
