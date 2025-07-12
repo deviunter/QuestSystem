@@ -1,7 +1,7 @@
 ![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
-`v.1.0.3` `Stable`
+`v.1.0.4` `In work`
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
@@ -16,6 +16,9 @@ This project and its contents are the intellectual property of Skydream Interact
 • Generated quests. Adding the ability to generate quests from templates for the **OCG CONFRONTATION** and **MEASURE** types
 
 # WHAT'S NEW
+
+`v. 1.0.4`
+Added Data Asset for generated objectives.
 
 `v. 1.0.3`
 Updated FindObjectiveIndex() method
