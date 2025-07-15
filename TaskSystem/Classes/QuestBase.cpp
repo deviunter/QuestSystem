@@ -165,6 +165,8 @@ void UQuestBase::RefreshQuest()
 {
 	if (QuestDetails.StageDetails.IsValidIndex(CurrentStage))
 	{
+		TArray<FString> LocalObjectivesArray;
+		LocalObjectivesArray.Empty();
 		CurrentObjectives.Empty();
 		StageDetails = QuestDetails.StageDetails[CurrentStage]; //Get Stage Objectives
 		for (FObjectiveDetails Elem : StageDetails.Objectives)
@@ -177,6 +179,15 @@ void UQuestBase::RefreshQuest()
 				LocalCurrentObjective.MaxAmmound = Elem.MaxAmmound;
 				LocalCurrentObjective.ObjectiveDetails = Elem;
 				CurrentObjectives.Add(LocalCurrentObjective);
+				LocalObjectivesArray.Add(LocalCurrentObjective.ObjectiveID);
+			}
+		}
+		for (FCurrentObjectives Elem : CurrentObjectives)
+		{
+			if (Elem.ObjectiveDetails.bObjectiveInitialSpawn && CheckPossibilityForGenerateObjective(Elem.ObjectiveDetails))
+			{
+				GenerateObjective(Elem.ObjectiveID, Elem.ObjectiveDetails);
+				LocalObjectivesArray.Remove(Elem.ObjectiveID);
 			}
 		}
 		if (bIsQuestTracked == true)
@@ -209,6 +220,19 @@ void UQuestBase::RefreshQuest()
 				if (!LocalObjective.bIsObjectiveHidden && bIsQuestTracked == true)
 				{
 					IQuestInterface::Execute_SpawnTargetMark(Elem, QuestDetails.QuestType);
+				}
+				LocalObjectivesArray.Remove(LocalStr);
+			}
+		}
+		if (!LocalObjectivesArray.IsEmpty())
+		{
+			for (FString GenerateElem : LocalObjectivesArray)
+			{
+				if (CheckPossibilityForGenerateObjective(GetObjectiveData(GenerateElem).ObjectiveDetails) && FindObjectiveByID(GenerateElem))
+				{
+					FObjectiveDetails GenerateObjectiveLocalData = GetObjectiveData(GenerateElem).ObjectiveDetails;
+					GenerateObjective(GenerateElem, GenerateObjectiveLocalData);
+					LocalObjectivesArray.Remove(GenerateElem);
 				}
 			}
 		}
@@ -680,9 +704,31 @@ void UQuestBase::MakeCompletedObjective(FCurrentObjectives Objective, EObjective
 	CompletedObjectives.Add(LocalCompletedObjective);
 }
 
+bool UQuestBase::CheckPossibilityForGenerateObjective(FObjectiveDetails ObjectiveDetails)
+{
+	if (IsValid(ObjectiveDetails.ObjectiveSpawnInfo.ObjectiveSpawnerClass))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool UQuestBase::GenerateObjective(FString ObjectiveID, FObjectiveDetails ObjectiveDetails)
 {
-	return false;
+	if (IsValid(ObjectiveDetails.ObjectiveSpawnInfo.ObjectiveSpawnerClass))
+	{
+		AObjectiveSpawner* Spawner = Cast<AObjectiveSpawner>(GetWorld()->SpawnActor(ObjectiveDetails.ObjectiveSpawnInfo.ObjectiveSpawnerClass));
+		Spawner->ObjectiveDetails = ObjectiveDetails;
+		Spawner->SpawnObjective();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /*Return Save Data for SaveGameToSlot*/

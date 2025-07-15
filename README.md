@@ -1,7 +1,7 @@
 ![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
-`v.1.0.4` `In work`
+`v.1.0.5` `From 13.07.2025` `In Work`
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
@@ -15,7 +15,12 @@ This project and its contents are the intellectual property of Skydream Interact
 
 • Generated quests. Adding the ability to generate quests from templates for the **OCG CONFRONTATION** and **MEASURE** types
 
+• **GENERATED OBJECTIVES** Save & Load, in QuestSystem or in outer game systems
+
 # WHAT'S NEW
+
+`v. 1.0.5`
+Added Objective Spawner - class for spawn objective separetly from QuestBase. 
 
 `v. 1.0.4`
 Added Data Asset for generated objectives.
@@ -177,6 +182,12 @@ UDataTable* ReplaceData = LoadObject<UDataTable>(nullptr,
 `StageDetails` - Here is stored information on the stages of the quest. Located in `TaskSystem/Structures`
 
 `TaskSystemSave` - Basic structure for saving. Located in `TaskSystem/Structures`
+
+`GenerateDetails` - A structure containing info for generate objectives: Spawner class, Objective DataAsset & Spawn Transform etc. Located in `TaskSystem/Structures`
+
+*Data Assets*
+
+`DefaultQuestData` - Default DataAsset class. Located in `TaskSystem/DataAssets`
 
 *Enumerators*
 

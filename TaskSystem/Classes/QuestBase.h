@@ -1,4 +1,5 @@
-//govno
+// © Skydream Interactive LLC 2020-2025
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,13 +12,11 @@
 #include "TaskSystem/Structures/CompletedObjective.h"
 #include "TaskSystem/Enumerators/QuestEnumerators.h"
 #include "TaskSystem/Structures/QuestBaseSave.h"
+#include "TaskSystem/ObjectiveSpawners/ObjectiveSpawner.h"
 #include "QuestBase.generated.h"
 
 class UTaskLogger;
 
-/**
- * 
- */
 UCLASS(Blueprintable, BlueprintType)
 class AFTERDARKNESS_API UQuestBase : public UObject
 {
@@ -128,6 +127,9 @@ if the goal is completed, then the conflicting goals will be automatically ignor
 	/*Create CompleteObjective Array Elem*/
 	UFUNCTION(BlueprintCallable, Category = "Objective")
 	void MakeCompletedObjective(FCurrentObjectives Objective, EObjectiveCompleteType CompleteType);
+
+	UFUNCTION(BlueprintCallable, Category = "Objective")
+	bool CheckPossibilityForGenerateObjective(FObjectiveDetails ObjectiveDetails);
 
 	UFUNCTION(BlueprintCallable, Category = "Objective")
 	bool GenerateObjective(FString ObjectiveID, FObjectiveDetails ObjectiveDetails);
