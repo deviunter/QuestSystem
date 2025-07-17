@@ -1,3 +1,5 @@
+// © Skydream Interactive LLC 2020-2025
+
 #pragma once
 
 #include "QuestBase.h"
@@ -6,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/DataTable.h"
 #include "Player/PlayerInterface.h"
+#include "TaskSystem/ObjectiveSpawners/ObjectiveSpawner.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"
 
 /*Initial function. It sets default values ??for variables, clears arrays and loads the quest table to install the data manager*/
@@ -721,8 +724,7 @@ bool UQuestBase::GenerateObjective(FString ObjectiveID, FObjectiveDetails Object
 	if (IsValid(ObjectiveDetails.ObjectiveSpawnInfo.ObjectiveSpawnerClass))
 	{
 		AObjectiveSpawner* Spawner = Cast<AObjectiveSpawner>(GetWorld()->SpawnActor(ObjectiveDetails.ObjectiveSpawnInfo.ObjectiveSpawnerClass));
-		Spawner->ObjectiveDetails = ObjectiveDetails;
-		Spawner->SpawnObjective();
+		Spawner->SpawnObjective(this, ObjectiveDetails);
 		return true;
 	}
 	else

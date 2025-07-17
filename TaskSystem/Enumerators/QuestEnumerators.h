@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// © Skydream Interactive LLC 2020-2025
 
 #pragma once
 
@@ -9,9 +9,9 @@
 UENUM(BlueprintType)
 enum class EQuestType : uint8
 {
-	MainTask UMETA(DisplayName = "Main Task"), //Основное задание, провал - GameOver
-	SideTask UMETA(DisplayName = "Side Task"), //Дополнительное задание, провал - GameOver
-	Investigation UMETA(DisplayName = "Investigation"), //Расследование
+	MainTask UMETA(DisplayName = "Main Task"), // Main Quest. If Quest failed - GameOver
+	SideTask UMETA(DisplayName = "Side Task"), // SideQuest. If Quest failed - GameOver
+	Investigation UMETA(DisplayName = "Investigation"), // Investigation Quest.
 	KeyData UMETA(DisplayName = "Important Data"), //Сведения о местанахождении важных данных
 	Measure UMETA(DisplayName = "Measures"), // Меры (генерируемые задания)
 	Ocg UMETA(DisplayName = "OCG Confrontation"), // Меры (генерируемые задания)

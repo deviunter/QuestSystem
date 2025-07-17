@@ -1,3 +1,4 @@
+// © Skydream Interactive LLC 2020-2025
 
 #include "QuestObjective.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"

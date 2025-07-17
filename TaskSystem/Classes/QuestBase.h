@@ -12,10 +12,10 @@
 #include "TaskSystem/Structures/CompletedObjective.h"
 #include "TaskSystem/Enumerators/QuestEnumerators.h"
 #include "TaskSystem/Structures/QuestBaseSave.h"
-#include "TaskSystem/ObjectiveSpawners/ObjectiveSpawner.h"
 #include "QuestBase.generated.h"
 
 class UTaskLogger;
+class AObjectiveSpawner;
 
 UCLASS(Blueprintable, BlueprintType)
 class AFTERDARKNESS_API UQuestBase : public UObject
