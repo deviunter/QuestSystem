@@ -303,7 +303,10 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 			if (CurrentObjectives.Num() < 1)
 			{
 				StageReward();
-				// on stage completed
+				if (OnStageCompleted.IsBound())
+				{
+					OnStageCompleted.Broadcast(CurrentStage);
+				}
 				GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 			}
 			else
@@ -368,7 +371,10 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 				if (CurrentObjectives.Num() < 1)
 				{
 					StageReward();
-					// on stage completed
+					if (OnStageCompleted.IsBound())
+					{
+						OnStageCompleted.Broadcast(CurrentStage);
+					}
 					UpdateStage();
 					//GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
@@ -436,7 +442,10 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 				if (CurrentObjectives.Num() < 1)
 				{
 					StageReward();
-					// on stage completed
+					if (OnStageCompleted.IsBound())
+					{
+						OnStageCompleted.Broadcast(CurrentStage);
+					}
 					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
 				else
@@ -524,7 +533,10 @@ void UQuestBase::ObjectiveIgnored(FString ObjectiveID, bool ForceUpdateStage)
 				if (CurrentObjectives.Num() < 1)
 				{
 					StageReward();
-					// on stage completed
+					if (OnStageCompleted.IsBound())
+					{
+						OnStageCompleted.Broadcast(CurrentStage);
+					}
 					GetWorld()->GetTimerManager().SetTimer(UpdateDelay, this, &UQuestBase::UpdateStage, 2.f, false, -1.f);
 				}
 				else
