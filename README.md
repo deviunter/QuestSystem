@@ -1,7 +1,7 @@
 ![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
-`v.1.0.7` `From 18.07.2025` `In Work`
+`v.1.0.8` `From 18.07.2025` `In Work, HOT FIX`
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
@@ -18,6 +18,10 @@ This project and its contents are the intellectual property of Skydream Interact
 • **GENERATED OBJECTIVES** Save & Load, in QuestSystem or in outer game systems
 
 # WHAT'S NEW
+
+`v. 1.0.8`
+Minor Changes.
+
 `v. 1.0.7`
 Minor changes in QuestBase - finally added delivery for OnStageCompleted delegate
 
