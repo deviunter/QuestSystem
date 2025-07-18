@@ -1,7 +1,7 @@
 ![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
-`v.1.0.5` `From 13.07.2025` `In Work`
+`v.1.0.7` `From 18.07.2025` `In Work`
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
@@ -18,6 +18,11 @@ This project and its contents are the intellectual property of Skydream Interact
 • **GENERATED OBJECTIVES** Save & Load, in QuestSystem or in outer game systems
 
 # WHAT'S NEW
+`v. 1.0.7`
+Minor changes in QuestBase - finally added delivery for OnStageCompleted delegate
+
+`v. 1.0.6`
+Minor changes.
 
 `v. 1.0.5`
 Added Objective Spawner - class for spawn objective separetly from QuestBase. 
@@ -188,6 +193,16 @@ UDataTable* ReplaceData = LoadObject<UDataTable>(nullptr,
 *Data Assets*
 
 `DefaultQuestData` - Default DataAsset class. Located in `TaskSystem/DataAssets`
+
+`CollectbleQuestData` - DataAsset for storing data about different collectibles that use their RowID in the DataTable as a data transfer method. Located in `TaskSystem/DataAssets`
+
+`GoonQuestData` - DataAsset for storing data about a enemy NPC called Goon. Located in `TaskSystem/DataAssets`
+
+`LocationQuestData` - DataAsset for storing data about a specific Volume type actor.
+
+*Objective Spawers*
+
+Objective Spawners are actors in which the process of spawning targets takes place. This logic was specifically allocated to a separate class system to delimit class responsibilities in the architecture, reduce the amount of code in QuestBase, and also to make it possible to conveniently spawn blueprint classes. Located in `TaskSystem/ObjectiveSpawners`
 
 *Enumerators*
 
