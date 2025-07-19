@@ -1,7 +1,7 @@
 ![After Darkness Ingame Logo](https://github.com/user-attachments/assets/6c2a4edd-925f-44ab-8694-50076bbd7904)
 # AFTER DARKNESS QUEST SYSTEM
 
-`v.1.0.8` `From 18.07.2025` `In Work, HOT FIX`
+`v.1.0.9` `From 18.07.2025` `In Work`
 
 `After Darkness © 2020 - 2025 Skydream Interactive. All rights reserved.`
 
@@ -18,6 +18,9 @@ This project and its contents are the intellectual property of Skydream Interact
 • **GENERATED OBJECTIVES** Save & Load, in QuestSystem or in outer game systems
 
 # WHAT'S NEW
+
+`1.0.9`
+Minor Update.
 
 `v. 1.0.8`
 Minor Changes.
