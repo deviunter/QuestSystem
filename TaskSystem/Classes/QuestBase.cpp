@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/DataTable.h"
 #include "Player/PlayerInterface.h"
+#include "Core/Interfaces/DisplaysInterface.h"
 #include "TaskSystem/ObjectiveSpawners/ObjectiveSpawner.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"
 
@@ -112,11 +113,7 @@ void UQuestBase::ActivateQuest()
 	bIsQuestTracked = true;
 	if (bIsQuestTracked == true)
 	{
-		AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-		if (CurrentGameMode)
-		{
-			IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, this);
-		}
+		IDisplaysInterface::Execute_RefreshQuest((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 	}
 	TArray<AActor*> LocalActors;
 	UGameplayStatics::GetAllActorsWithInterface(GetWorld(), UQuestInterface::StaticClass(), LocalActors);
@@ -195,19 +192,11 @@ void UQuestBase::RefreshQuest()
 		}
 		if (bIsQuestTracked == true)
 		{
-			AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-			if (CurrentGameMode)
-			{
-				IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, this);
-			}
+			IDisplaysInterface::Execute_RefreshQuest((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 		}
 		else
 		{
-			AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-			if (CurrentGameMode)
-			{
-				IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-			}
+			IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 		}
 		TArray<AActor*> LocalActors;
 		UGameplayStatics::GetAllActorsWithInterface(GetWorld(), UQuestInterface::StaticClass(), LocalActors);
@@ -282,19 +271,11 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 			MakeCompletedObjective(LocalObjective, EObjectiveCompleteType::Completed);
 			if (bIsQuestTracked == true)
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_RemoveLine((UObject*)CurrentGameMode, ObjectiveID, EObjectiveCompleteType::Completed);
-				}
+				IDisplaysInterface::Execute_RemoveLine((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), ObjectiveID, EObjectiveCompleteType::Completed);
 			}
 			else
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-				}
+				IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 			}
 			int32 LocalIndex;
 			LocalIndex = GetObjectiveIndex(ObjectiveID);
@@ -331,38 +312,22 @@ void UQuestBase::ObjectiveComplete(FString ObjectiveID, int32 AddedValue)
 			}
 			if (bIsQuestTracked == true)
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_AddLineValue((UObject*)CurrentGameMode, ObjectiveID, AddedValue);
-				}
+				IDisplaysInterface::Execute_AddLineValue((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), ObjectiveID, AddedValue);
 			}
 			else
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-				}
+				IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 			}
 			if (GetObjectiveData(ObjectiveID).CurrentAmmound >= GetObjectiveData(ObjectiveID).MaxAmmound)
 			{
 				MakeCompletedObjective(LocalObjective, EObjectiveCompleteType::Completed);
 				if (bIsQuestTracked == true)
 				{
-					AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-					if (CurrentGameMode)
-					{
-						IQuestInterface::Execute_RemoveLine((UObject*)CurrentGameMode, ObjectiveID, EObjectiveCompleteType::Completed);
-					}
+					IDisplaysInterface::Execute_RemoveLine((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), ObjectiveID, EObjectiveCompleteType::Completed);
 				}
 				else
 				{
-					AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-					if (CurrentGameMode)
-					{
-						IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-					}
+					IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 				}
 				int32 LocalInt;
 				LocalInt = GetObjectiveIndex(ObjectiveID);
@@ -414,19 +379,11 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 			MakeCompletedObjective(LocalObjective, EObjectiveCompleteType::Failed);
 			if (bIsQuestTracked == true)
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_RemoveLine((UObject*)CurrentGameMode, ObjectiveID, EObjectiveCompleteType::Failed);
-				}
+				IDisplaysInterface::Execute_RemoveLine((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), ObjectiveID, EObjectiveCompleteType::Failed);
 			}
 			else
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-				}
+				IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 			}
 			int32 LocalIndex;
 			LocalIndex = GetObjectiveIndex(ObjectiveID);
@@ -505,19 +462,11 @@ void UQuestBase::ObjectiveIgnored(FString ObjectiveID, bool ForceUpdateStage)
 			MakeCompletedObjective(LocalObjective, EObjectiveCompleteType::Ignored);
 			if (bIsQuestTracked == true)
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_RemoveLine((UObject*)CurrentGameMode, ObjectiveID, EObjectiveCompleteType::Ignored);
-				}
+				IDisplaysInterface::Execute_RemoveLine((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), ObjectiveID, EObjectiveCompleteType::Ignored);
 			}
 			else
 			{
-				AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-				if (CurrentGameMode)
-				{
-					IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-				}
+				IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 			}
 			int32 LocalIndex;
 			LocalIndex = GetObjectiveIndex(ObjectiveID);
@@ -631,19 +580,11 @@ void UQuestBase::ReplaceObjective(TArray<FName> ReplaceID)
 					CurrentObjectives.Add(LocalCurrentObjective);
 					if (bIsQuestTracked == true)
 					{
-						AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-						if (CurrentGameMode)
-						{
-							IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, this);
-						}
+						IDisplaysInterface::Execute_RefreshQuest((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 					}
 					else
 					{
-						AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-						if (CurrentGameMode)
-						{
-							IQuestInterface::Execute_NonTrackedTaskUpdated((UObject*)CurrentGameMode, this);
-						}
+						IDisplaysInterface::Execute_NonTrackedTaskUpdated((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 					}
 					TArray<AActor*> LocalActors;
 					UGameplayStatics::GetAllActorsWithInterface(GetWorld(), UQuestInterface::StaticClass(), LocalActors);
@@ -797,11 +738,7 @@ void UQuestBase::SetLoadData(FQuestBaseSave LoadedData)
 					}
 				}
 			}
-			AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-			if (CurrentGameMode)
-			{
-				IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, this);
-			}
+			IDisplaysInterface::Execute_RefreshQuest((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), this);
 		}
 	}
 }

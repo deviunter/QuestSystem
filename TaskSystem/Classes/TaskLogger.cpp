@@ -5,6 +5,7 @@
 #include "QuestBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Core/Interfaces/DisplaysInterface.h"
 #include "Core/Interfaces/InstancesInterface.h"
 #include "Player/PlayerInterface.h"
 #include "TaskSystem/Interfaces/QuestInterface.h"
@@ -48,11 +49,7 @@ void UTaskLogger::CompleteQuest(FName QuestID, UQuestBase* QuestBaseReference)
 	}
 	else
 	{
-		AGameModeBase* CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-		if (CurrentGameMode)
-		{
-			IQuestInterface::Execute_RefreshQuest((UObject*)CurrentGameMode, nullptr);
-		}
+		IDisplaysInterface::Execute_RefreshQuest((UObject*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD(), nullptr);
 	}
 }
 

@@ -41,21 +41,4 @@ public:
 	//Return Actor Objective ID
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Objective")
 	FString GetMyObjectiveID();
-
-	/*        GAMEMODE FUNCTIONS        */
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Game Mode")
-	void RefreshQuest(UQuestBase* QuestBase);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Game Mode")
-	void RemoveLine(const FString& ObjectiveID, EObjectiveCompleteType RemoveType);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Game Mode")
-	void AddLineValue(const FString& ObjectiveID, int32 AddedValue);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Game Mode")
-	void RefreshLines(UQuestBase* QuestBase);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Game Mode")
-	void NonTrackedTaskUpdated(UQuestBase* QuestBase);
 };
