@@ -139,7 +139,7 @@ if (GetObjectiveData(ObjectiveID).CurrentAmmound >= GetObjectiveData(ObjectiveID
 
 **INITIALLY**
 
-1. For correct operation, you need to make changes to the YourGame.Build.cs file by adding paths to the files according to the following example:
+>1. For correct operation, you need to make changes to the YourGame.Build.cs file by adding paths to the files according to the following example:
 ``` c#
 PublicIncludePaths.AddRange(new string[]
     {
@@ -152,13 +152,13 @@ PublicIncludePaths.AddRange(new string[]
     });
 ```
 
-2. In all files you need to replace AFTERDARKNESS_API with YOURAGAMENAME_API. According to the following example:
+>2. In all files you need to replace AFTERDARKNESS_API with YOURAGAMENAME_API. According to the following example:
 
 ``` c++
 UCLASS(Blueprintable, BlueprintType)
 class AFTERDARKNESS_API UQuestBase : public UObject
 ```
-3. It is necessary to replace the paths to DataTable in the executable file QuestBase.cpp
+>3. It is necessary to replace the paths to DataTable in the executable file QuestBase.cpp
 ``` c++
 // INITIALIZATION
 UDataTable* QuestData = LoadObject<UDataTable>(nullptr,
