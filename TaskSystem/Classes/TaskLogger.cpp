@@ -1,4 +1,4 @@
-// © Skydream Interactive LLC 2020-2025
+// пњљ Skydream Interactive LLC 2020-2025
 
 
 #include "TaskLogger.h"
@@ -74,7 +74,6 @@ void UTaskLogger::AddNewQuest(FName QuestID)
 	}
 }
 
-//ѕровер€ет по айдишнику квесты и активирует совпадающий, остальные дективирует
 void UTaskLogger::TrackQuest(FName QuestID)
 {
 	if (ReceivedQuests.Contains(QuestID))
@@ -99,7 +98,6 @@ void UTaskLogger::TrackQuest(FName QuestID)
 }
 
 //Return True if QuestID non found in Quest Arrays (Received & Completed)
-// сделано, но надо убедитьс€ в парвильности работы
 bool UTaskLogger::GetActiveQuest(FName QuestID)
 {
 	if (ReceivedQuests.Contains(QuestID))
@@ -114,7 +112,6 @@ bool UTaskLogger::GetActiveQuest(FName QuestID)
 }
 
 //Return QuestBase by FName QuestID
-//надо протестировать
 UQuestBase* UTaskLogger::FindQuestBase(FName QuestID)
 {
 	for(UQuestBase* CurrentElem : CurrentQuests)

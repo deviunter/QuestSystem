@@ -1,4 +1,4 @@
-// ╘ Skydream Interactive LLC 2020-2025
+// О©╫ Skydream Interactive LLC 2020-2025
 
 #pragma once
 
@@ -139,9 +139,6 @@ if the goal is completed, then the conflicting goals will be automatically ignor
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStageCompleted, int32, StageIndex);
 	UPROPERTY(BlueprintAssignable)
 	FOnStageCompleted OnStageCompleted;
-
-	// ъ унрек янгдюрэ йюйхе рн декецюрш дкъ пюгмшу яхрсюжхи бнр рнкэйн гюашк йюйхе
-	// мюдн бяонлмхрэ х еякх ме асдер онд псйни йндю х гюохяюрэ врн гю декецюрш ъ унрек янгдюрэ
 
 	// delegate for SPECIAL ACTORS & SYSTEMS
 

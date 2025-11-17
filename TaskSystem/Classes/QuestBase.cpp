@@ -1,4 +1,4 @@
-// © Skydream Interactive LLC 2020-2025
+// пїЅ Skydream Interactive LLC 2020-2025
 
 #pragma once
 
@@ -171,7 +171,7 @@ void UQuestBase::RefreshQuest()
 		StageDetails = QuestDetails.StageDetails[CurrentStage]; //Get Stage Objectives
 		for (FObjectiveDetails Elem : StageDetails.Objectives)
 		{
-			if (FindInAllObjectives(Elem.ObjectiveID)) //проверяем каждую цель на присутствие в глобальном квестовом массиве. защита от софтлока
+			if (FindInAllObjectives(Elem.ObjectiveID)) 
 			{
 				FCurrentObjectives LocalCurrentObjective;
 				LocalCurrentObjective.ObjectiveID = Elem.ObjectiveID;
@@ -234,7 +234,6 @@ void UQuestBase::RefreshQuest()
 /*Update Stage*/
 void UQuestBase::UpdateStage()
 {
-	//логика отключения предыдущих целей, если они остались, отгрузка саблевела если он есть и тд
 	GetWorld()->GetTimerManager().ClearTimer(UpdateDelay);
 	CurrentStage++;
 	if (CurrentStage >= QuestDetails.StageDetails.Num())
@@ -247,7 +246,6 @@ void UQuestBase::UpdateStage()
 	}
 }
 
-/*ahahha*/
 void UQuestBase::StageReward()
 {
 	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
@@ -390,8 +388,6 @@ void UQuestBase::ObjectiveFailed(FString ObjectiveID, bool ForceUpdateStage)
 			CurrentObjectives.RemoveAt(LocalIndex);
 			if (!LocalObjective.ObjectiveDetails.ObjectiveReplaceID.IsEmpty())
 			{
-				// НАДО ПОСТАВИТЬ ЭТО НА ТАЙМЕР, ПОТОМУ ЧТО ИГРОК НЕ ВИДИТ ЧТО СТАЛО С ЕГО ЦЕЛЬЮ И НЕ УСПЕВАЕТ
-				// ПОНЯТЬ ЧТО ПРОИЗОШЛО
 				ReplaceObjective(LocalObjective.ObjectiveDetails.ObjectiveReplaceID);
 			}
 			if (ForceUpdateStage == true)
@@ -473,8 +469,6 @@ void UQuestBase::ObjectiveIgnored(FString ObjectiveID, bool ForceUpdateStage)
 			CurrentObjectives.RemoveAt(LocalIndex);
 			if (!LocalObjective.ObjectiveDetails.ObjectiveReplaceID.IsEmpty())
 			{
-				// НАДО ПОСТАВИТЬ ЭТО НА ТАЙМЕР, ПОТОМУ ЧТО ИГРОК НЕ ВИДИТ ЧТО СТАЛО С ЕГО ЦЕЛЬЮ И НЕ УСПЕВАЕТ
-				// ПОНЯТЬ ЧТО ПРОИЗОШЛО
 				ReplaceObjective(LocalObjective.ObjectiveDetails.ObjectiveReplaceID);
 			}
 			if (ForceUpdateStage == true)
@@ -551,14 +545,6 @@ void UQuestBase::WriteMaxAmmound(FString ObjectiveID, int32 NewMaxAmmound)
 if it has them in the ReplaceObjectives array in the FObjectiveDetails structure*/
 void UQuestBase::ReplaceObjective(TArray<FName> ReplaceID)
 {
-	// надо добавить возможность добавлять замену на следующую стадию
-	// тоесть сначала мы проверяем AddToNextStage == true если да, то делаем апрейт стейдж
-	// ПРОБЛЕМА: СИСТЕМА МОЖЕТ ВЫПОЛНИТЬ КВЕСТ ПОСЛЕ ПРОВАЛЕННОЙ ЦЕЛИ, ЕСЛИ ОНА В ПОСЛЕДНЕЙ СТАДИИ
-	// НУЖНО СДЕЛАТЬ ЗАЩИТУ ОТ ЭТОГО БУДЕТ
-	// и после апдейт стейдж мы уже добавляем новые цели на новую стадию
-	// а если AddToNextStage == false тогда похуй
-	// НО: НАДО СДЕЛАТЬ ПРОВЕРКУ НА ЦЕЛИ, НЕЛЬЗЯ ЖЕ ОБНОВЛЯТЬ СТАДИЮ ЕСЛИ НЕ ВСЕ ЦЕЛИ НА ЭТОЙ ЗАВЕРШЕНЫ
-	// ТОЛЬКО ЕСЛИ ЦЕЛЬ, КОТОРУЮ ЗАМЕНИЛИ ОСТАЛАСЬ ОДНА НА СТАДИИ ИЛИ БЫЛА ОДНА ИЗНАЧАЛЬНО
 	for (FName Elem : ReplaceID)
 	{
 		if (!Elem.IsNone())
